@@ -1,0 +1,121 @@
+﻿@using MyFragment.Entities.Entity
+@using MyFragment.UI.Models
+@using MyFragment.Entities.Entity.Enums
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/shop-homepage.css" rel="stylesheet" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <link href="~/Content/category.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/all.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+</head>
+
+<body>
+
+    @{
+        User user = CurrentSession.user;
+    }
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="@Url.Action("Index","Home")"><span class="fa fa-home"></span> My Fragment</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav mr-auto" id="navbarNavId">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("About","Home")"><span class="fa fa-info-circle"></span> Hakkımızda</a>
+                    </li>
+
+                    @if (user != null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("UserMovies","User",new {id= user.Id})"><span class="fa fa-heart"></span> Fragmanlarım</a>
+                        </li>
+                        if (user.UserState == UserState.Admin)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="fa fa-th-list"></span>  Filmler
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="@Url.Action("Index","Movie")"><span class="fa fa-list-ul"></span> Film Listesi</a>
+                                    <a class="dropdown-item" href="@Url.Action("Create","Movie")"><span class="fa fa-plus"></span> Film Ekle</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="@Url.Action("Index","Category")"><span class="fa fa-list-ul"></span> Categoriler</a>
+                                    <a class="dropdown-item" href="@Url.Action("Create","Category")"><span class="fa fa-plus"></span> Categori Ekle</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="fa fa-th-list"></span> Oyuncular
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="@Url.Action("Index","Actor")"><span class="fa fa-list-ul"></span> Oyuncu Listesi</a>
+                                    <a class="dropdown-item" href="@Url.Action("Create","Actor")"><span class="fa fa-plus"></span> Oyuncu Ekle</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="@Url.Action("Index","Director")"><span class="fa fa-list-ul"></span> Yönetmenler</a>
+                                    <a class="dropdown-item" href="@Url.Action("Create","Director")"><span class="fa fa-plus"></span> Yönetmen Ekle</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="fa fa-wrench"></span> Yönetim
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="@Url.Action("Index","User")"><span class="fa fa-list-ul"></span> Kullanıcılar</a>
+                                    <a class="dropdown-item" href="@Url.Action("Create","User")"><span class="fa fa-plus"></span> Kullanıcı Ekle</a>
+                                </div>
+                            </li>
+
+
+
+                        }
+                    }
+
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    @if (user == null)
+                    {
+                        <li class="nav-item pull-right">
+                            <a class="nav-link float-right" href="@Url.Action("Login","Home")"><span class="fa fa-sign-in-alt"></span> Giriş</a>
+                        </li>
+                        <li class="nav-item pull-right">
+                            <a class="nav-link" href="@Url.Action("Register","Home")"><span class="fa fa-user-plus"></span> Üye Ol</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item pull-right">
+                            <a class="nav-link" href="@Url.Action("Logout","Home")"><span class="fa fa-sign-out-alt"></span> Çıkış</a>
+                        </li>
+                        <li class="nav-item pull-right">
+                            <a class="nav-link" href="@Url.Action("ShowProfile","Home")"><span class="fa fa-user-circle"></span> @user.Username</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    @RenderBody()
+
+    @RenderSection("footer", required: false)
+
+   
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/all.min.js"></script>
+    
+
+</body>
+</html>

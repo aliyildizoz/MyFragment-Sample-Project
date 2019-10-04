@@ -1,0 +1,82 @@
+﻿@using MyFragment.UI.Models
+@using MyFragment.Entities.Entity
+@model MyFragment.Entities.Entity.Category
+
+@{
+    ViewBag.Title = "Create";
+}
+@{
+    bool isSelectedMovie = false;
+    CategoryViewModel viewModel = new CategoryViewModel();
+}
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mt-5">Yeni Kayıt</h2>
+            <h3 class="mt-1">Kategori</h3>
+            @if (CurrentSession.Get<Movie>("selectedMovie") != null)
+            {
+                string name = CurrentSession.Get<Movie>("selectedMovie").Name.ToString();
+                isSelectedMovie = true;
+                <h4>@name</h4>
+            }
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="container">
+
+                    <div class="row">
+
+                        @if (isSelectedMovie)
+                        {
+                            <div class="col-md-8 offset-md-2">
+                                <div class="form-group">
+                                    <b>@Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(I => I.Id, viewModel.Types, "Türler", new { @class = "form-control form-control-sm dropdown" })
+                                        @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-8 offset-md-2">
+                                <div class="form-group">
+                                    <b>@Html.LabelFor(model => model.CategoryState, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                    <div class="col-md-10">
+                                        @Html.DropDownListFor(model => model.CategoryState, new List<SelectListItem> { new SelectListItem() { Text = "MovieType", Value = "101" }, new SelectListItem() { Text = "MovieYear", Value = "102" } }, new { @class = "form-control dropdown" })
+                                        @Html.ValidationMessageFor(model => model.CategoryState, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 offset-md-2">
+                                <div class="form-group">
+                                    <b>@Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="col-md-8 offset-md-2">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    @HelperMethod.IconButton("submit", "plus-circle", "btn-success mr-1", "Ekle")
+                                    @HelperMethod.IconLink(Url.Action("Index"), "arrow-circle-left", "btn-secondary", "Listeye dön")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

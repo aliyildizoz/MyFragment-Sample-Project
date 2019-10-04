@@ -1,0 +1,116 @@
+﻿@using MyFragment.Entities.Entity
+@using MyFragment.UI.Models
+@model IEnumerable<Movie>
+
+@{
+    ViewBag.Title = "Liste";
+}
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<div class="container mb-4">
+    <div>
+        <div class="col-12">
+            <h2 class="mt-5">Film Listesi</h2><br />
+            @if (CurrentSession.Get<User>("selectedUser") != null)
+            {
+                string name = CurrentSession.Get<User>("selectedUser").ToString();
+                @HelperMethod.IconLink(Url.Action("Index"), "arrow-circle-left", "btn-secondary", "Listeye dön")
+                <h3 class="mt-1">@name</h3>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ImagePath)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MovieYear)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ImdbPoint)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Lenght)
+                        </th>
+
+                        <th>
+                            Fragman
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Summary)
+                        </th>
+                        <th class="text-success">
+                            Oyuncular
+                        </th>
+                        <th class="text-primary">
+                            Yönetmenler
+                        </th>
+                        <th class="text-warning">
+                            Kategoriler
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="align-middle">
+                                <img src="~/img/MoviePoster/@item.ImagePath" height="80" width="60" alt="@Html.DisplayFor(modelItem => item.ImagePath)" />
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.MovieYear)
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.ImdbPoint)
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.Lenght)
+                            </td>
+                            <td class="align-middle">
+                                <button movie-id="@item.Id" type="button" class="btn btn-sm btn-secondary" data-toggle="modal" data-target="#modalFragment">
+                                    <span class="fa fa-film"></span> Fragman
+                                </button>
+                            </td>
+                            <td class="align-middle">
+                                <button movie-id="@item.Id" type="button" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#modalSummary">
+                                    <span class="fa fa-quote-left"></span> Özet
+                                </button>
+                            </td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target=".modalActors-modal-lg" movie-id="@item.Id">Oyuncular</button>
+                            </td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target=".modalDirectors-modal-lg" movie-id="@item.Id">Yönetmenler</button>
+                            </td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target=".modalCategories-modal-lg" movie-id="@item.Id">Kategoriler</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+@HelperMethod.ModalCenter("modalSummary", "Summary")
+@HelperMethod.ModalLarge("modalActors")
+@HelperMethod.ModalLarge("modalDirectors")
+@HelperMethod.ModalLarge("modalCategories")
+@HelperMethod.ModalLarge("modalFragment")
+
+
+<script src="~/Scripts/userMoviesModal.js"></script>

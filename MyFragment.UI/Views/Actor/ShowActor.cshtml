@@ -1,0 +1,104 @@
+﻿@using MyFragment.Entities.Entity
+@using MyFragment.UI.Models
+@model Actor
+@{
+    ViewBag.Title = "Filmografi";
+}
+@{
+    User user = CurrentSession.user;
+}
+<div class="container">
+    <div class="row">
+        <div class="jumbotron" style="width:200%;">
+            <div class="text-center">
+                <img src="~/img/ActorPhotos/@Model.ImagePath" alt="@Model.ToString()" height="200" width="200" class="rounded-circle" />
+                <hr class="text-center my-3" style="width:200px;" />
+            </div>
+            <div class="text-center">
+                <h1 class="d-inline">@Model.ToString()</h1><br />
+                <h2 class="d-inline"><i>Filmografi</i></h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model.Movies.Count == 0)
+        {
+            <div class="col-md-12 text-center">
+                <b><i>Bu Yönetmene ait film bulunamadı.</i></b>
+            </div>
+        }
+        else
+        {
+            foreach (Movie item in Model.Movies)
+            {
+                <div class="col-md-3 ">
+                    <div class="card border-primary" id="movieCard">
+                        <a href="@Url.Action("ShowMovies","Home", new { id = item.Id })" class="btn-link" data-movie-id="@item.Id"><img class="card-img-top" height="300" width="180" src="~/img/MoviePoster/@item.ImagePath" alt="@item.ImagePath" /> </a>
+                        <div class="card-body text-primary">
+                            @{
+                                string movieName = item.Name;
+                                if (movieName.Length > 19)
+                                {
+                                    movieName = movieName.Substring(0, 16) + "...";
+                                }
+                            }
+                            <h5 class="card-title">@Html.ActionLink(movieName, "ShowMovies", "Home", new { id = item.Id }, new { @class = "btn-link", title = item.Name })</h5>
+                            <p class="card-text">
+                                <b>Türü : </b>@foreach (Category category in item.Categories)
+                                {
+
+                                    if (category.CategoryState == MyFragment.Entities.Entity.Enums.CategoryState.MovieType)
+                                    {
+                                        @Html.ActionLink(category.Value, "ByCategory", "Home", new { nameId = category.Id }, new { @class = "badge badge-primary mr-1", title = category.Value })
+                                    }
+
+                                }<br />
+
+                                <b>Yönetmen : </b>@if (item.Directors.Count >= 2)
+                                {
+                                    foreach (Director director in item.Directors)
+                                    {
+                                        string directorName = director.ToString();
+                                        if (directorName.Length > 8)
+                                        {
+                                            directorName = directorName.Substring(0, 5) + "...";
+                                        }
+                                        @Html.ActionLink(directorName, "ShowDirector", "Director", new { id = director.Id }, new { @class = "badge badge-dark mr-1", title = director.ToString() })
+
+                                    }<br />
+                                }
+                                else
+                                {
+                                    string directorName = item.Directors.FirstOrDefault().ToString();
+                                    if (directorName.Length > 16)
+                                    {
+                                        directorName = directorName.Substring(0, 13) + "...";
+                                    }
+                                    @Html.ActionLink(directorName, "ShowDirector", "Director", new { id = item.Directors.FirstOrDefault().Id }, new { @class = "badge badge-dark mr-1", title = item.Directors.FirstOrDefault().ToString() })<br />
+                                }
+                                <b>IMDB puanı : </b><span class="text-dark">@item.ImdbPoint.ToString() <br /></span>
+                                @if (user != null)
+                                {
+                                    if (user.Movies.Contains(item))
+                                    {
+                                        <button class="btn btn-lg btn-link pull-right " data-movie-id="@item.Id" data-liked="true"><div class="fa fa-heart liked-star"></div></button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-lg btn-link pull-right " data-movie-id="@item.Id" data-liked="false"><div class="fa fa-heart-broken liked-star"></div></button>
+                                    }
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+@if (user != null)
+{
+    <script src="~/Scripts/liked.js"></script>
+}

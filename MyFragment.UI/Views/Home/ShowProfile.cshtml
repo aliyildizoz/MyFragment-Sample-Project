@@ -1,0 +1,46 @@
+﻿@using MyFragment.Entities.Entity
+@model User
+
+@{
+    ViewBag.Title = "Profil";
+}
+
+<div class="container">
+
+    <div class="row mt-5">
+        <h2>Profiliniz</h2>
+    </div>
+
+    <hr />
+    <div class="row mt-5">
+
+        <div class="col-md-3 text-center">
+            <img src="~/img/UserPhotos/@Model.ImagePath" class="rounded-circle" id="imgshow" width="128" height="128" />
+            <hr style="width:128px;" class="text-center" />
+        </div>
+
+        <div class="col-md-6">
+            <h4>@(Model.Name + " " + Model.Surname)</h4>
+            <br />
+            <h6><b>@Html.DisplayNameFor(model => model.Username) : </b>@Model.Username</h6>
+            <h6><b>@Html.DisplayNameFor(model => model.Email) : </b>@Model.Email</h6>
+            <br />
+            <h6><a href="#">More... </a></h6>
+        </div>
+        <div class="col-md-3">
+            <!-- Example single danger button -->
+
+
+            <div class="dropdown">
+                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-user-cog"></span> Profil Ayarları
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item text-warning" href="@Url.Action("EditProfile")"><span class="fa fa-cog text-secondary fa-lg"></span>&nbsp;&nbsp;&nbsp;&nbsp;Düzenle</a>
+                    <a class="dropdown-item text-danger" href="@Url.Action("DeleteProfile")"><span class="fa fa-trash text-secondary fa-lg"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sil</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

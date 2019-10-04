@@ -1,0 +1,135 @@
+﻿@using MyFragment.Entities.Entity
+@model Movie
+
+@{
+    ViewBag.Title = "Detay";
+}
+
+<div class="container mb-4">
+    <div>
+        <div class="col-md-12">
+            <h2 class="mt-5">Detay</h2>
+            <h3>@Model.Name</h3>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-8 offset-md-2 text-center">
+                <img src="~/img/MoviePoster/@Model.ImagePath" id="imgshow" width="180" height="250" /><hr />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.Name)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.Name) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.MovieYear)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.MovieYear) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.AddedDate)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.AddedDate) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.ImdbPoint)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.ImdbPoint) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.ImagePath)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.ImagePath) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.Lenght)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.Lenght) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.EmbedKey)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.EmbedKey) <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.Summary)&nbsp;:&nbsp;</b><p class="text-justify"> @Html.DisplayFor(model => model.Summary)</p> <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h5>Yönetmenler</h5>
+            <table class="table table-sm table-hover">
+                <tr>
+                    <th>
+                        Isim
+                    </th>
+                    <th>
+                        Soyisim
+                    </th>
+                </tr>
+                @foreach (Director director in Model.Directors)
+                {
+                    <tr>
+                        <td>@director.Name</td>
+                        <td>@director.Surname</td>
+                    </tr>
+
+                }
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h5>Oyuncular</h5>
+            <table class="table table-sm table-hover">
+                <tr>
+                    <th>
+                        Isim
+                    </th>
+                    <th>
+                        Soyisim
+                    </th>
+                </tr>
+                @foreach (Actor actor in Model.Actors)
+                {
+                    <tr>
+                        <td>@actor.Name</td>
+                        <td>@actor.Surname</td>
+                    </tr>
+
+                }
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h5>Kategoriler</h5>
+            <table class="table table-sm table-hover">
+                <tr>
+                    <th>
+                        Kategori isim
+                    </th>
+                </tr>
+                @foreach (Category category in Model.Categories)
+                {
+                    <tr>
+                        <td>@category.Value</td>
+                    </tr>
+
+                }
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            @HelperMethod.IconLink(Url.Action("Edit", new { id = Model.Id }), "edit", "btn-warning mr-1", "Düzenle")
+            @HelperMethod.IconLink(Url.Action("Index"), "arrow-circle-left", "btn-secondary", "Listeye dön")
+        </div>
+    </div>
+</div>

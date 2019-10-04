@@ -1,0 +1,49 @@
+﻿@model MyFragment.Entities.Entity.Actor
+
+@{
+    ViewBag.Title = "Sil";
+}
+
+
+
+<div class="container mb-5">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mt-5">Sil</h2>
+            <h3>Aşağıdaki kaydı silmek istediğinizden emin misiniz?</h3>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-8 offset-md-2 text-center">
+                <img src="~/img/ActorPhotos/@Model.ImagePath" id="imgshow" width="180" height="250" /><hr />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.Name)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.Name) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.Surname)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.Surname) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    @HelperMethod.IconButton("submit", "trash-alt", "btn-danger mr-1", "Sil")
+                    @HelperMethod.IconLink(Url.Action("Index"), "arrow-circle-left", "btn-secondary", "Listeye dön")
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

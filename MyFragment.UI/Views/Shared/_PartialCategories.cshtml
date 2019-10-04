@@ -1,0 +1,74 @@
+﻿@using MyFragment.UI.Models
+
+@{
+    CategoryViewModel viewModel = new CategoryViewModel();
+}
+
+<div class="col-lg-3">
+
+    <div class="card text-white bg-dark mb-3" id="categoryCard">
+        <div class="card-header">Çoklu seçim</div>
+        <div class="card-body">
+            @using (Html.BeginForm("ByCategory", "Home", FormMethod.Get))
+            {
+
+                if (CurrentSession.Get<bool>("selectClear"))
+                {
+
+                    @Html.DropDownList("nameId", viewModel.Types, "-Türler-", new { @class = "form-control form-control-sm dropdown" })<br />
+
+                    @Html.DropDownList("yearId", viewModel.Years, "-Yıllar-", new { @class = "form-control form-control-sm dropdown" })<br />
+
+                    @Html.DropDownList("imdbId", viewModel.ImdbPoints, "-IMDB puanı-", new { @class = "form-control form-control-sm dropdown" })
+                    <script src="~/Scripts/category.js"></script>
+                    CurrentSession.Set("selectClear", false);
+                }
+                else
+                {
+                    @Html.DropDownList("nameId", viewModel.Types, "-Türler-", new { @class = "form-control form-control-sm dropdown" })<br />
+
+                    @Html.DropDownList("yearId", viewModel.Years, "-Yıllar-", new { @class = "form-control form-control-sm dropdown" })<br />
+
+                    @Html.DropDownList("imdbId", viewModel.ImdbPoints, "-IMDB Puanı-", new { @class = "form-control form-control-sm dropdown" })
+                }
+
+
+                <br />
+                <div class="text-center">
+                    <button type="submit" id="getMultipleSelect" class="btn btn-sm btn-light mr-3">Getir</button>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="card text-white bg-secondary mb-3" id="categoryCard">
+        <div class="card-header">Yıllar</div>
+        <div class="card-body">
+
+            <table class="table-secondary table-bordered">
+                @{int sayac = 0;}
+                @for (int i = 0; i < viewModel.Years.Count / 4; i++)
+                {
+                    <tr>
+                        @for (int k = 0; k < 4; k++)
+                        {
+                            sayac++;
+                            <td>
+                                @Html.ActionLink(viewModel.Years[sayac].Text, "ByCategory", new { yearId = viewModel.Years[sayac].Value }, new { @class = "btn btn-sm btn-light" })
+                            </td>
+                        }
+                    </tr>
+                }
+            </table>
+
+        </div>
+    </div>
+    <div class="card bg-light mb-3" id="categoryNameCard">
+        <div class="card-header">Türler</div>
+        <div class="card-body">
+            @for (int i = 0; i < viewModel.Types.Count; i++)
+            {
+                @Html.ActionLink(viewModel.Types[i].Text, "ByCategory", new { nameId = viewModel.Types[i].Value }, new { @class = "btn btn-sm btn-dark" })
+            }
+        </div>
+    </div>
+</div>

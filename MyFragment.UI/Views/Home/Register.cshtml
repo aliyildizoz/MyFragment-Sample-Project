@@ -1,0 +1,77 @@
+﻿@using MyFragment.Entities.ViewModel
+@model RegisterViewModel
+@{
+    ViewBag.Title = "Üyelik";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 text-center mb-5">
+            </div>
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <!-- form card register -->
+                    <div class="card rounded-0" id="register-form">
+                        <div class="card-header">
+                            <h3 class="mb-0">Üye Ol</h3>
+                        </div>
+
+                        <div class="card-body">
+                            @using (Html.BeginForm())
+                            {
+
+                                @Html.ValidationSummary((bool)TempData["key"], "", new { @class = "text-danger" })
+
+                                <div class="form-group">
+                                    <label for="uname1">Kullanıcı adı</label>
+                                    @Html.TextBoxFor(I => I.Username, new { @class = "form-control form-control-lg rounded-0" })
+                                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    <label for="uname1">Isim</label>
+                                    @Html.TextBoxFor(I => I.Name, new { @class = "form-control form-control-lg rounded-0" })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="uname1">Soyisim</label>
+                                    @Html.TextBoxFor(I => I.Surname, new { @class = "form-control form-control-lg rounded-0" })
+                                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    <label>Şifre</label>
+                                    @Html.TextBoxFor(I => I.Password, new { @class = "form-control form-control-lg rounded-0", type = "password" })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    <label>Şifre (tekrar)</label>
+                                    @Html.TextBoxFor(I => I.RePassword, new { @class = "form-control form-control-lg rounded-0", type = "password" })
+                                    @Html.ValidationMessageFor(model => model.RePassword, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="form-group">
+                                    <label>E-mail</label>
+                                    @Html.TextBoxFor(I => I.Email, new { @class = "form-control form-control-lg rounded-0", type = "email" })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div>
+                                    <label class="custom-control custom-checkbox">
+                                        <a href="@Url.Action("Login")" class="login-form-link">Giriş</a>
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-success btn-lg float-right">Kayıt</button>
+                            }
+                        </div>
+                        <!-- /form card register end -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

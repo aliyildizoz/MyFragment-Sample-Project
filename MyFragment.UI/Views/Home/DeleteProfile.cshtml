@@ -1,0 +1,66 @@
+﻿@model MyFragment.Entities.Entity.User
+
+@{
+    ViewBag.Title = "Sil";
+}
+
+
+
+<div class="container mb-5">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mt-5">Delete</h2>
+
+            <h3>Profilinizi silmek istediğinizden emin misiniz?</h3>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-8 offset-md-2 text-center">
+                <img src="~/img/UserPhotos/@Model.ImagePath" id="imgshow" width="180" height="250" /><hr />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.Name)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.Name) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.Surname)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.Surname) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.Username)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.Username) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.Password)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.Password) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <b>@Html.DisplayNameFor(model => model.Email)&nbsp;:&nbsp;</b> @Html.DisplayFor(model => model.Email) <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="hidden" name="id" id="id" value="@Model.Id" />
+                    @HelperMethod.IconButton("submit", "trash-alt", "btn-danger mr-1", "Sil")
+                    @HelperMethod.IconLink(Url.Action("ShowProfile"), "arrow-circle-left", "btn-secondary", "Profile dön")
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

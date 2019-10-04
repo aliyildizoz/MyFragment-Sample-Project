@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Hata Oluştu";
+}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            @{
+
+                Exception ex = null;
+                if (TempData["LastError"] != null)
+                {
+                    ex = TempData["LastError"] as Exception;
+                }
+            }
+            <h1><span class="fa fa-minus-circle text-danger"></span> Hata Oluştu</h1>
+            <p>
+                Hata oluştu lütfen site yöneticisi ile iletişime geçiniz.<br /><br /><br />
+                @if (ex != null)
+                {
+                    <strong>Hata detay : </strong>@ex.Message
+                    <br /><br /><br />
+                }
+                @HelperMethod.IconLink(Url.Action("Index"), "home", "btn-primary mr-1", " Ana sayfaya git !")
+                @HelperMethod.IconLink("mailto:aliyildizoz909@gmail.com", "envelope", "btn-info mr-1", " E-Posta Gönder !")
+            </p>
+
+        </div>
+    </div>
+</div>
+
+

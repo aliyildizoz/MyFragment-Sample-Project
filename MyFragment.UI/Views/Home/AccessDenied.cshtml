@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Yetkisiz Erişim";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1><span class="fa fa-minus-circle text-danger"></span> Yetkisiz Erişim</h1>
+            <p>
+                Bu sayfaya erişim yetkiniz bulunmamaktadır.<br /><br />
+                @HelperMethod.IconLink(Url.Action("Index"), "home", "btn-primary mr-1", " Ana sayfaya git !")
+            </p>
+
+        </div>
+    </div>
+</div>
+
+

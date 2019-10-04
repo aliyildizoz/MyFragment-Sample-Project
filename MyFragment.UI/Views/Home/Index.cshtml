@@ -1,0 +1,138 @@
+﻿@using MyFragment.UI.Models
+@using MyFragment.Entities.Entity
+@using PagedList
+@using PagedList.Mvc
+@model IPagedList<Movie>
+
+@{
+    ViewBag.Title = "Ana Sayfa";
+}
+@{
+    User user = CurrentSession.user;
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<div class="container">
+
+    @Html.Partial("_PartialCarousel", TempData["carouselEmbedKeys"] as List<string>)
+    <hr />
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="row">
+                <div class="col-md-10 offset-1">
+                    @using (Html.BeginForm("GetSearchMovies", "Home"))
+                    {
+                        <div class="input-group">
+
+                            @Html.TextBox("searchText", "", new { @class = "form-control", placeholder = "Ara" })
+                            <button type="submit" class="btn btn-outline-primary"><span class="fa fa-search"></span> Ara</button>
+
+                        </div>
+                    }
+                    <hr />
+                </div>
+                @if (Model.Count == 0)
+                {
+                    <div class="col-md-12 text-center">
+                        <i>Aradığınız filmler bulunamadı.</i>
+                    </div>
+                }
+                else
+                {
+                    foreach (Movie item in Model)
+                    {
+                        <div class="col-md-4 ">
+                            <div class="card border-primary" id="movieCard">
+                                <a href="@Url.Action("ShowMovies", new { id = item.Id })" class="btn-link" data-movie-id="@item.Id"><img class="card-img-top" height="300" width="180" src="~/img/MoviePoster/@item.ImagePath" alt="@item.ImagePath" /> </a>
+                                <div class="card-body text-primary">
+                                    @{
+                                        string movieName = item.Name;
+                                        if (movieName.Length > 19)
+                                        {
+                                            movieName = movieName.Substring(0, 16) + "...";
+                                        }
+                                    }
+                                    <h5 class="card-title">@Html.ActionLink(movieName, "ShowMovies", new { id = item.Id }, new { @class = "btn-link", title = item.Name })</h5>
+                                    <p class="card-text">
+                                        <b>Türü : </b>@foreach (Category category in item.Categories)
+                                        {
+
+                                            if (category.CategoryState == MyFragment.Entities.Entity.Enums.CategoryState.MovieType)
+                                            {
+                                                @Html.ActionLink(category.Value, "ByCategory", new { nameId = category.Id }, new { @class = "badge badge-primary mr-1" })
+                                            }
+
+                                        }<br />
+
+                                        <b>Yönetmen : </b>@if (item.Directors.Count >= 2)
+                                        {
+                                            foreach (Director director in item.Directors)
+                                            {
+                                                string directorName = director.ToString();
+                                                if (directorName.Length > 8)
+                                                {
+                                                    directorName = directorName.Substring(0, 5) + "...";
+                                                }
+                                                @Html.ActionLink(directorName, "ShowDirector", "Director", new { id = director.Id }, new { @class = "badge badge-dark mr-1", title = director.ToString() })
+
+                                            }<br />
+                                        }
+                                        else
+                                        {
+                                            string directorName = item.Directors.FirstOrDefault().ToString();
+                                            if (directorName.Length > 16)
+                                            {
+                                                directorName = directorName.Substring(0, 13) + "...";
+                                            }
+                                            @Html.ActionLink(directorName, "ShowDirector", "Director", new { id = item.Directors.FirstOrDefault().Id }, new { @class = "badge badge-dark mr-1", title = item.Directors.FirstOrDefault().ToString() })<br />
+                                        }
+                                        <b>IMDB puanı : </b><span class="text-dark">@item.ImdbPoint</span>&nbsp;<span class="fa fa-star text-warning"></span><br />
+                                        @if (user != null)
+                                        {
+                                            if (user.Movies.Contains(item))
+                                            {
+                                                <button class="btn btn-lg btn-link pull-right " data-movie-id="@item.Id" data-liked="true"><div class="fa fa-heart"></div></button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-lg btn-link pull-right " data-movie-id="@item.Id" data-liked="false"><div class="fa fa-heart-broken"></div></button>
+                                            }
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    @if (ViewBag.selectedCategory != null && (bool)ViewBag.selectedCategory)
+                    {
+                        @Html.PagedListPager(Model, pageNumber => Url.Action("ByCategory", new { nameId = ViewBag.selectedNameId, yearId = ViewBag.selectedYearId, imdbId = ViewBag.selectedImdbId, pageNumber }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+                    }
+                    else
+                    {
+                        @Html.PagedListPager(Model, pageNumber => Url.Action("Index", new { pageNumber }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+                    }
+
+
+                </div>
+            </div>
+        </div>
+
+        @Html.Partial("_PartialCategories")
+
+    </div>
+    <hr>
+
+</div>
+
+@section footer{
+    @Html.Partial("_PartialFooter")
+}
+@if (user != null)
+{
+    <script src="~/Scripts/liked.js"></script>
+}

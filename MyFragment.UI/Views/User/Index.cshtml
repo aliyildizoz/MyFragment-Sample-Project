@@ -1,0 +1,84 @@
+﻿@using MyFragment.UI.Models
+@using MyFragment.Entities.Entity
+@model IEnumerable<MyFragment.Entities.Entity.User>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mt-5 mb-3">Kullanıcı Listesi</h2>
+            @HelperMethod.IconLink(Url.Action("Create"), "plus-circle", "btn-outline-success mb-2", "Yeni Kayıt")
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ImagePath)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Surname)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Username)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Password)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserState)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <td class="align-middle">
+                                <img src="~/img/UserPhotos/@item.ImagePath" height="80" width="60" alt="@Html.DisplayFor(modelItem => item.ImagePath)" />
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.Surname)
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.Username)
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.Password)
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.UserState)
+                            </td>
+                            <td class="align-middle">
+                                @HelperMethod.IconLink(Url.Action("Edit", new { id = item.Id }), "edit", "btn-sm btn-warning", "Düzenle")
+                                @HelperMethod.IconLink(Url.Action("Delete", new { id = item.Id }), "trash-alt", "btn-sm btn-danger", "Sil")
+                                @HelperMethod.IconLink(Url.Action("UserMovies", new { id = item.Id }), "th-list", "btn btn-sm btn-outline-primary", "Filmleri")
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

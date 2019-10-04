@@ -1,0 +1,115 @@
+﻿@using MyFragment.UI.Models
+@using MyFragment.Entities.Entity
+@model MyFragment.Entities.Entity.User
+
+@{
+    ViewBag.Title = "Düzenle";
+}
+
+
+<div class="container">
+
+    <div class="row mt-5">
+        <h2>Düzenle</h2>
+    </div>
+
+    <hr />
+    <div class="row mt-5">
+
+        @using (Html.BeginForm("EditProfile", "Home", FormMethod.Post, new { enctype = "multipart/form-data", @class = "container" }))
+        {
+            <div class="row">
+                <div class="col-md-3 text-center">
+                    <img src="~/img/UserPhotos/@Model.ImagePath" class="rounded-circle" id="imgshow" width="128" height="128" />
+                    <hr style="width:128px;" class="text-center" />
+                    <span class="fa fa-upload text-secondary fa-lg"></span>@("Resim Yükle") <input type="file" id="fileId" name="ImagePath" class="btn-sm col-md-10" />
+                </div>
+
+                <div class="col-md-7">
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(I => I.Id)
+                    @Html.HiddenFor(I => I.UserState)
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.ValidationSummary((bool)TempData["key"], "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <b>@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <b>@Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <b>@Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-3" })</b>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <b>@Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" }, type = "password" })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <b>@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    @HelperMethod.IconButton("submit", "save", "btn-success mr-1", "Kaydet")
+                                    @HelperMethod.IconLink(Url.Action("Index"), "arrow-circle-left", "btn-secondary", "Profile dön")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+
+                    <div class="dropdown">
+                        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="fa fa-user-cog"></span> Profil Ayarları
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item text-warning" href="@Url.Action("EditProfile")"><span class="fa fa-cog text-secondary fa-lg"></span>&nbsp;&nbsp;&nbsp;&nbsp;Düzenle</a>
+                            <a class="dropdown-item text-danger" href="@Url.Action("DeleteProfile")"><span class="fa fa-trash text-secondary fa-lg"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sil</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+<script src="~/Scripts/imagePath.js"></script>

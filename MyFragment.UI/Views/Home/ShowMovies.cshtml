@@ -1,0 +1,103 @@
+﻿@using MyFragment.Entities.Entity
+@model Movie
+@{
+    ViewBag.Title = Model.Name;
+}
+
+
+<div class="container-fluid p-5 ">
+
+    <!-- Portfolio Item Heading -->
+    <h1 class="my-4">
+        @Model.Name
+    </h1>
+    <hr />
+    <!-- Portfolio Item Row -->
+    <div class="row mt-3">
+
+        <div class="col-md-7 ">
+            <iframe width="950" height="550" src="https://www.youtube.com/embed/@Model.EmbedKey" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <div class="col-md-5">
+            <h3 class="my-3">Özet</h3>
+            <hr />
+            <p class="text-justify">@Model.Summary</p>
+
+            <h3 class="my-3">Film detayı</h3>
+            <hr />
+
+            <h4>
+                <b>Tür : </b>@foreach (Category category in Model.Categories)
+                {
+                    if (category.CategoryState == MyFragment.Entities.Entity.Enums.CategoryState.MovieType)
+                    {
+                        @Html.ActionLink(category.Value, "ByCategory", new { nameId = category.Id }, new { @class = "badge badge-primary mr-1" })
+                    }
+
+                } <br />
+            </h4>
+            <h4> <b>Uzunluk : </b>@Model.Lenght.ToString() <br /> </h4>
+            <h4> <b>Yapım Yılı : </b>@Model.MovieYear.ToString() <br /></h4>
+            <h4><b>Imdb puanı : </b>@Model.ImdbPoint </h4>
+        </div>
+
+    </div>
+</div>
+<div class="container">
+    <!-- /.row -->
+    <!-- Related Projects Row -->
+    <h3 class="my-4">Yönetmenler</h3>
+    <div class="row">
+
+        @foreach (Director director in Model.Directors)
+        {
+            <div class="col-md-2">
+                <div class="card border-danger mb-3" id="personCard">
+                    <div class="card-img text-danger">
+                        <img class="card-img-top" height="150" width="145" src="~/img/DirectorPhotos/@director.ImagePath" alt="@director.ToString()">
+
+                    </div>
+                    @{
+                        string directorName = director.ToString();
+                        if (directorName.Length > 12)
+                        {
+                            directorName = directorName.Substring(0, 10) + "...";
+                        }
+                    }
+                    <div class="card-body"> <p class="card-text"><a href="@Url.Action("ShowDirector","Director", new { id = director.Id})" class="text-danger" title="@director.ToString()">@directorName</a></p></div>
+                </div>
+            </div>
+
+        }
+
+
+    </div>
+    <h3 class="my-4">Oyuncular</h3>
+    <div class="row mb-3">
+        @foreach (Actor actor in Model.Actors)
+        {
+            <div class="col-md-2">
+                <div class="card border-warning mb-3" id="personCard">
+                    <div class="card-img">
+                        <img class="card-img-top" height="150" width="145" src="~/img/ActorPhotos/@actor.ImagePath" alt="@actor.ToString()">
+                    </div>
+                    @{
+                        string actorName = actor.ToString();
+                        if (actorName.Length > 12)
+                        {
+                            actorName = actorName.Substring(0, 10) + "...";
+                        }
+                    }
+                    <div class="card-body"> <p class="card-text"> <a href="@Url.Action("ShowActor","Actor", new { id = actor.Id})" class="text-warning" title="@actor.ToString()">@actorName</a></p></div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+</div>
+
+@section footer{
+    @Html.Partial("_PartialFooter")
+}

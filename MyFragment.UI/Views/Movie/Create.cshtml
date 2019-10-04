@@ -1,0 +1,118 @@
+﻿@model MyFragment.Entities.Entity.Movie
+@using MyFragment.UI.Models
+@{
+    ViewBag.Title = "Kayıt";
+}
+@{
+    CategoryViewModel viewModel = new CategoryViewModel();
+}
+
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mt-5">Yeni Kayıt</h2>
+            <h4>Film</h4>
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+            @using (Html.BeginForm("Create", "Movie", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-md-8 offset-md-2">
+                            <div class="form-group">
+                                <div class="col-md-10 text-center">
+                                    <img src="~/img/MoviePoster/defaultPoster.png" id="imgshow" width="180" height="250" />
+                                    <div class="col-md-12 offset-md-3">
+                                        <br />
+                                        @Html.EditorFor(model => model.ImagePath, new { htmlAttributes = new { @class = "form-control-file d-inline btn-sm ", type = "file", id = "imgload" } })
+                                        @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-8 offset-md-2">
+                            <div class="form-group">
+                                <b>@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 offset-md-2">
+                            <div class="form-group">
+                                <b>@Html.LabelFor(model => model.MovieYear, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(I => I.MovieYear, viewModel.Years, "-Yapım yılı-", new { @class = "form-control form-control-sm dropdown" })
+                                    @Html.ValidationMessageFor(model => model.MovieYear, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 offset-md-2">
+                            <div class="form-group">
+                                <b>@Html.LabelFor(model => model.ImdbPoint, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(I => I.ImdbPoint, viewModel.ImdbPoints, "-Imdb Puanı-", new { @class = "form-control form-control-sm dropdown" })
+                                    @Html.ValidationMessageFor(model => model.ImdbPoint, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-8 offset-md-2">
+                            <div class="form-group">
+                                <b>@Html.LabelFor(model => model.Lenght, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Lenght, new { htmlAttributes = new { @class = "form-control", type = "time" } })
+                                    @Html.ValidationMessageFor(model => model.Lenght, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-8 offset-md-2">
+                            <div class="form-group">
+                                <b>@Html.LabelFor(model => model.EmbedKey, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.EmbedKey, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.EmbedKey, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 offset-md-2">
+                            <div class="form-group">
+                                <b>@Html.LabelFor(model => model.Summary, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                <div class="col-md-10">
+                                    @Html.TextAreaFor(model => model.Summary, new { @class = "form-control", rows = "5", cols = "100" })
+                                    @Html.ValidationMessageFor(model => model.Summary, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-8 offset-md-2">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    @HelperMethod.IconButton("submit", "plus-circle", "btn-success mr-1", "Kaydet")
+                                    @HelperMethod.IconLink(Url.Action("Index"), "arrow-circle-left", "btn-secondary", "Listeye dön")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+        </div>
+
+    </div>
+</div>
+<script src="~/Scripts/imagePath.js"></script>

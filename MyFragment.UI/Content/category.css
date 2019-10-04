@@ -1,0 +1,16 @@
+﻿#categoryCard {
+    max-width: 18rem;
+}
+
+    #categoryCard table {
+        border: 1px solid #ffffff;
+    }
+
+#categoryNameCard a {
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+#personCard {
+    margin-right: 10px;
+}

@@ -1,0 +1,50 @@
+﻿@using MyFragment.Entities.Entity
+@model IEnumerable<Actor>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+
+            <h2 class="mt-5">Oyuncu listesi</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ImagePath)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Surname)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <td class="align-middle">
+                                <img src="~/img/ActorPhotos/@item.ImagePath" height="80" width="60" alt="@Html.DisplayFor(modelItem => item.ImagePath)" />
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td class="align-middle">
+                                @Html.DisplayFor(modelItem => item.Surname)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+

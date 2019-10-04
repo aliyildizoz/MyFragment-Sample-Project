@@ -1,0 +1,117 @@
+﻿@using MyFragment.UI.Models
+@using MyFragment.Entities.Entity
+@using MyFragment.Business.Abstract
+@using MyFragment.Business.Manager
+@model Director
+
+@{
+    ViewBag.Title = "Kayıt";
+}
+@{
+    bool notNormalCreate = CurrentSession.Get<bool>("notNormalCreate");
+}
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mt-5">Yeni Kayıt</h2>
+            <h3 class="mt-1">Yönetmen</h3>
+            @if (notNormalCreate)
+            {
+                string name = CurrentSession.Get<Movie>("selectedMovie").Name.ToString();
+                <h4>@name</h4>
+            }
+            <hr />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            @using (Html.BeginForm("Create", "Director", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="container">
+                    @if (notNormalCreate)
+                    {
+                        DirectorManager directorManager = ManagerSingleton.CreateAsSingleton<DirectorManager>();
+                        List<SelectListItem> selectList = new List<SelectListItem>();
+                        directorManager.List().ForEach(I =>
+                        {
+                            selectList.Add(new SelectListItem() { Value = I.Id.ToString(), Text = I.ToString() });
+                        });
+
+                        <div class="row">
+                            <div class="col-12 pull-left">
+                                @HelperMethod.IconLink(Url.Action("Create", new { selector = true }), "plus-circle", "btn-outline-success mb-2", "Yeni Kayıt")
+                            </div>
+                            <div class="col-md-8 offset-md-2">
+                                <div class="form-group">
+                                    <b>@Html.Label("Kayıtlı yönetmenlerden seç", htmlAttributes: new { @class = "control-label col-md-4" })</b>
+                                    <div class="col-md-9">
+                                        @Html.DropDownListFor(I => I.Id, selectList, "Yönetmenler", new { @class = "form-control form-control-sm dropdown" })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 offset-md-2">
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        @HelperMethod.IconButton("submit", "plus-circle", "btn-success mr-1", "Ekle")
+                                        @HelperMethod.IconLink(Url.Action("Index"), "arrow-circle-left", "btn-secondary", "Listeye dön")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-8 offset-md-2">
+                                <div class="form-group">
+                                    <div class="col-md-10 text-center">
+                                        <img src="~/img/DirectorPhotos/defaultPhoto.png" id="imgshow" width="180" height="250" />
+                                        <div class="col-md-12 offset-md-3">
+                                            <br />
+                                            @Html.EditorFor(model => model.ImagePath, new { htmlAttributes = new { @class = "form-control-file d-inline btn-sm ", type = "file", id = "imgload" } })
+                                            @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 offset-md-2">
+                                <div class="form-group">
+                                    <b>@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 offset-md-2">
+                                <div class="form-group">
+                                    <b>@Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-2" })</b>
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 offset-md-2">
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        @HelperMethod.IconButton("submit", "plus-circle", "btn-success mr-1", "Kaydet")
+                                        @HelperMethod.IconLink(Url.Action("Index"), "arrow-circle-left", "btn-secondary", "Listeye dön")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Scripts/imagePath.js"></script>
