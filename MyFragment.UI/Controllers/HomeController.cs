@@ -27,12 +27,12 @@ namespace MyFragment.UI.Controllers
             CurrentSession.Remove("selectedMovie");
             CurrentSession.Set("selectClear", true);
             ViewBag.selectedCategory = false;
-            TempData["carouselEmbedKeys"] = movieManager.carouselEmbedKeys();
+            TempData["carouselEmbedKeys"] = movieManager.List().Take(5).Select(I => I.EmbedKey).ToList();
             return View(movieManager.List().ToPagedList(pageNumber, 6));
         }
         public ActionResult ByCategory(int? nameId, int? yearId, int? imdbId, int? pageNumber = 1)
         {
-            TempData["carouselEmbedKeys"] = movieManager.carouselEmbedKeys();
+            TempData["carouselEmbedKeys"] = movieManager.List().Take(5).Select(I => I.EmbedKey).ToList();
             if (nameId == null && yearId == null && imdbId == null)
             {
                 return View("Index", new List<Movie>().ToPagedList(1, 6));

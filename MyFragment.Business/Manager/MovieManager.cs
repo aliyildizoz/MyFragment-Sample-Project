@@ -74,14 +74,5 @@ namespace MyFragment.Business.Manager
             return 0;
         }
 
-        public List<string> carouselEmbedKeys()
-        {
-            List<string> embedKeys = new List<string>();
-            for (int i = 1; i < 6; i++)
-            {
-                embedKeys.Add(List()[List().Count - i].EmbedKey);
-            }
-            return embedKeys;
-        }
     }
 }
